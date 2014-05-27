@@ -1,12 +1,4 @@
 #!/bin/bash
-#for i in $(find /home/martin/series/ -maxdepth 1 -type d -printf "\"%f\"\n"); do echo $i; echo -n "  "; done
-#find /home/martin/series/ -maxdepth 1 -type f -name "*$i*"; done
-#find /home/martin/series/ -maxdepth 1 -type d -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iname "*$(basename "{}"|sed "s/ /\./g")*" | head -n1' \;
-#find /home/martin/series/ -maxdepth 1 -type d -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f \( -iname "*$(basename "{}")*" -o -iname "*$(basename "{}"|sed "s/ /./g")*" \) | head -n1' \;
-
-#find /home/martin/series/ -maxdepth 1 -type d ! -wholename /home/martin/series/ -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iregex ".*$(basename "{}"|sed "s/ /./g").*"' \;
-#find /home/martin/series/ -maxdepth 1 -type d ! -wholename /home/martin/series/ -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iregex ".*$(basename "{}"|sed "s/ /./g").*" | head -n1' \;
-#find /home/martin/series/ -maxdepth 1 -type d ! -wholename /home/martin/series/ -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iregex ".*$(basename "{}"|sed "s/ /./g").*" | sort -n | head -n1' \;
 
 series_path=/home/martin/series/
 
