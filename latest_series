@@ -1,0 +1,55 @@
+#!/bin/bash
+#for i in $(find /home/martin/series/ -maxdepth 1 -type d -printf "\"%f\"\n"); do echo $i; echo -n "  "; done
+#find /home/martin/series/ -maxdepth 1 -type f -name "*$i*"; done
+#find /home/martin/series/ -maxdepth 1 -type d -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iname "*$(basename "{}"|sed "s/ /\./g")*" | head -n1' \;
+#find /home/martin/series/ -maxdepth 1 -type d -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f \( -iname "*$(basename "{}")*" -o -iname "*$(basename "{}"|sed "s/ /./g")*" \) | head -n1' \;
+
+#find /home/martin/series/ -maxdepth 1 -type d ! -wholename /home/martin/series/ -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iregex ".*$(basename "{}"|sed "s/ /./g").*"' \;
+#find /home/martin/series/ -maxdepth 1 -type d ! -wholename /home/martin/series/ -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iregex ".*$(basename "{}"|sed "s/ /./g").*" | head -n1' \;
+#find /home/martin/series/ -maxdepth 1 -type d ! -wholename /home/martin/series/ -exec sh -c 'find /home/martin/series/ -maxdepth 1 -type f -iregex ".*$(basename "{}"|sed "s/ /./g").*" | sort -n | head -n1' \;
+
+series_path=/home/martin/series/
+
+set_ifs () {
+  SAVEIFS=$IFS
+  IFS=$(echo -en "\n\b")
+}
+
+restore_ifs () {
+  IFS=$SAVEIFS
+}
+
+get_all_episodes () {
+  find $series_path -maxdepth 1 -type f -printf "%f\n"
+}
+
+filter_out_brackets () {
+  perl -pe 's/\[.*?\][ _]*//g'
+}
+
+filter_out_episode_numbers () {
+  sed -e 's/-.*//' -e 's/\.S.*//'
+}
+
+get_first_episode () {
+  sort -u -t: -k1,1
+}
+
+print_full_filename () {
+  awk -F': ' '{print $2}'
+}
+
+print_name_of_series () {
+  echo -n $i | \
+  filter_out_brackets | \
+  filter_out_episode_numbers
+}
+
+set_ifs
+
+for i in $(get_all_episodes | sort -n); do
+  print_name_of_series
+  echo ": $i"
+done | get_first_episode | print_full_filename
+
+restore_ifs
