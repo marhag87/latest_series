@@ -37,11 +37,18 @@ print_name_of_series () {
   filter_out_episode_numbers
 }
 
+get_episodes_from_next_links () {
+  for link in $(find $series_path -maxdepth 2 -name next); do
+    readlink "$link"
+  done
+}
+
 set_ifs
 
 for i in $(get_all_episodes | sort -n); do
   print_name_of_series
   echo ": $i"
 done | get_first_episode | print_full_filename
+get_episodes_from_next_links
 
 restore_ifs
